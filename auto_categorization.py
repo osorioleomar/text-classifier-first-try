@@ -99,12 +99,15 @@ def evaluate_classifier(title, classifier, vectorizer, X_test, y_test):
     X_test_tfidf = vectorizer.transform(X_test)
     y_pred = classifier.predict(X_test_tfidf)
 
-    precision = metrics.precision_score(y_test, y_pred)
-    recall = metrics.recall_score(y_test, y_pred)
-    f1 = metrics.f1_score(y_test, y_pred)
+    precision = metrics.precision_score(y_test, y_pred, average=None)
+    recall = metrics.recall_score(y_test, y_pred, average=None)
+    f1 = metrics.f1_score(y_test, y_pred, average=None)
 
-    print("%s\t%f\t%f\t%f\n" % (title, precision, recall, f1))
-
+    print("%s\t%f\t%f\t%f\n" % (title, precision[0], recall[0], f1[0]))
+    # print(title)
+    # print(precision)
+    # print(recall)
+    # print(f1)
 
 def train_classifier(docs):
     X_train, X_test, y_train, y_test = get_splits(docs)
@@ -125,6 +128,7 @@ def train_classifier(docs):
 
     vec_filename = 'count_vectorizer.pkl'
     pickle.dump(vectorizer, open(vec_filename, 'wb'))
+
 
 if __name__ == '__main__':
     # create_data_set()
