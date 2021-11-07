@@ -129,10 +129,34 @@ def train_classifier(docs):
     vec_filename = 'count_vectorizer.pkl'
     pickle.dump(vectorizer, open(vec_filename, 'wb'))
 
+def classify(text):
+    # load the classifier
+    clf_filename = 'naive_bayes_classifier.pkl'
+    nb_clf = pickle.load(open(clf_filename, 'rb'))
+
+    # vectorize the new text
+    vec_filename = 'count_vectorizer.pkl'
+    vectorizer = pickle.load(open(vec_filename, 'rb'))
+
+    pred = nb_clf.predict(vectorizer.transform([text]))
+
+    print('This text is %s.' % (pred[0]))
 
 if __name__ == '__main__':
     # create_data_set()
-    docs = setup_docs()
+    # docs = setup_docs()
     # print_frequency_dist(docs)
-    train_classifier(docs)
+    # train_classifier(docs)
+
+    new_text = ''''
+    GLASGOW, Scotland — Senate Majority Whip Dick Durbin of Illinois told Yahoo News, “I don’t know,” whether Sen. Joe Manchin, D-W.V., will provide the crucial 50th vote for Build Back Better, President Biden’s signature budget bill, on Saturday. 
+
+“I don’t know the answer to that,” Durbin, the second-ranking Democrat in the Senate, said when asked if the Senate would muster the votes to pass the hotly contested legislation. “First, we have to get it through the parliamentarian’s office and through 50 Democratic senators.”
+
+The parliamentarian is the person who would rule on whether all the provisions of the bill are appropriate to be passed within the budget reconciliation process, which allows a simple majority to pass legislation without threat of a filibuster from the minority.
+
+Manchin, the centrist from a fossil fuel-heavy state whose opposition to many elements of the proposal has already forced their removal, still hasn’t publicly committed to back the stripped-down bill.
+    '''
+
+    classify(new_text)
     print("Done")
